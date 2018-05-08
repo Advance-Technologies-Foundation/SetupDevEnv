@@ -1,0 +1,9 @@
+Terrasoft.DevEnvironment/bin
+Terrasoft.DevEnvironment/obj
+Terrasoft.DevEnvironment/Terrasoft.DevEnvironment.nuget.targets
+Terrasoft.DevEnvironment/project.lock.json
+Terrasoft.DevEnvironment.Console/bin
+Terrasoft.DevEnvironment.Console/obj
+Terrasoft.DevEnvironment.Console/Terrasoft.DevEnvironment.Console.nuget.targets
+Terrasoft.DevEnvironment.Console/project.lock.json
+.vs

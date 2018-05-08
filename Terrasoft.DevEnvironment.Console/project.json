@@ -1,0 +1,13 @@
+﻿{
+  "frameworks": {
+    "net47": {}
+  },
+  "runtimes": {
+    "win": {},
+    "win-x86": {}
+  },
+  "dependencies": {
+    "microsoft.sqlserver.sqlmanagementobjects": "140.17224.0",
+    "sharpsvn.1.8-x86": "1.8019.4006.503"
+  }
+}
