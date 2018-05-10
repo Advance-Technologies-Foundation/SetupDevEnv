@@ -84,24 +84,36 @@
 
 		public string GetClearCultureScript() {
 			var sqlText = @"
+				SET NOCOUNT ON;
 				declare tname_iter CURSOR LOCAL FORWARD_ONLY READ_ONLY STATIC FOR
+				SELECT
+					t.name AS Name,
+					c.name AS ColumnName
+				FROM sys.foreign_key_columns AS fk
+				INNER JOIN sys.tables AS t
+					ON fk.parent_object_id = t.object_id
+				INNER JOIN sys.columns AS c
+					ON fk.parent_object_id = c.object_id
+					AND fk.parent_column_id = c.column_id
+				WHERE fk.referenced_object_id = (SELECT
+							object_id
+						FROM sys.tables
+						WHERE name = 'SysCulture'
+					)
 				
-				SELECT OBJECT_NAME(parent_object_id) as [Name]
-				FROM sys.foreign_keys
-				WHERE OBJECT_NAME(referenced_object_id) = 'SysCulture' and delete_referential_action = 0
-
 				DECLARE @tableName nvarchar(max);
+				DECLARE @columnName nvarchar(max);
 				DECLARE @sqlStmt nvarchar(max);
 				
 				open tname_iter
-				FETCH NEXT FROM tname_iter INTO @tableName
-				    WHILE @@FETCH_STATUS=0
-				    BEGIN
-				              set @sqlStmt = 'delete from ' + @tableName + ' where SysCultureId in 
-								(select id from sysculture where name not in (N''ru-RU'',N''en-US''))'
-				              exec(@sqlStmt);
-				        FETCH NEXT FROM tname_iter INTO @tableName 
-				    END
+				FETCH NEXT FROM tname_iter INTO @tableName, @columnName
+					WHILE @@FETCH_STATUS=0
+					BEGIN
+						set @sqlStmt = 'delete from ' + @tableName + ' where ' + @columnName + ' in (select id from sysculture where name not in (N''ru-RU'',N''en-US''))'
+						PRINT N'Deleting unneeded culture records from [' + @tableName + '].[' + @columnName + ']'
+						exec(@sqlStmt);
+						FETCH NEXT FROM tname_iter INTO @tableName, @columnName
+					END
 				close tname_iter;
 				deallocate tname_iter;
 				delete from sysculture where name not in (N'ru-RU',N'en-US')";
