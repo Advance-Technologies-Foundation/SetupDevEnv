@@ -14,6 +14,13 @@ Setup Development Environment Tool
 
 INSTALLATION
 ---------------------
+### Setup
+Скачать последнюю релизную версию. [Release](https://github.com/Advance-Technologies-Foundation/SetupDevEnv/releases)
+
+Сконфигурировать программу.
+Запустить и следовать инструкциям.
+
+>время работы утилиты примерно от 15 до 25 минут в зависимости от количества пакетов
 
 ### Config file
 
