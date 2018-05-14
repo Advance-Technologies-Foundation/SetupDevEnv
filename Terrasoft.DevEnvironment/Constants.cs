@@ -16,6 +16,7 @@
 		public static string WebAppLoaderWebConfigRelativePath = @"TSBpm\Src\Lib\Terrasoft.WebApp.Loader\Web.config";
 		public static string ConfigurationPkgRelativePath = @"TSBpm\Src\Lib\Terrasoft.WebApp.Loader\Terrasoft.WebApp\Terrasoft.Configuration\Pkg";
 		public static string ConfigurationCsUnitTestsPath = @"TSBpm\Src\Lib\Terrasoft.WebApp.Loader\Terrasoft.WebApp\Terrasoft.Configuration";
+		public static string ConfigurationIntegrationConnectionStringRelativePath = @"TSBpm\Src\Lib\Terrasoft.WebApp.Loader\Terrasoft.WebApp\Terrasoft.Configuration\UnitTest\Integration.config";
 		public static string SolutionPath = @"TSBpm\Src\Lib\TSLib.sln";
 
 	}
