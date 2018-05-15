@@ -88,6 +88,7 @@
     <Compile Include="Commands\UpdateDatabaseConnectionStringCommand.cs" />
     <Compile Include="Commands\UpdateRedisConnectionStringCommand.cs" />
     <Compile Include="Commands\UpdateWCDatabaseConnectionStringCommand.cs" />
+	<Compile Include="Commands\UpdateIntegrationConnectionStringCommand.cs" />
     <Compile Include="Commands\BuildCommand.cs" />
     <Compile Include="Commands\DeleteTempFilesCommand.cs" />
     <Compile Include="Commands\UpdateWorkspace.cs" />

@@ -61,6 +61,15 @@
 			doc.Save(connectionStringsConfigPath);
 		}
 
+		public void UpdateIntegrationConnectionString(string connectionStringsConfigPath, string connectionString) {
+			XmlDocument doc = new XmlDocument();
+			doc.Load(connectionStringsConfigPath);
+			XmlNode root = doc.DocumentElement;
+			XmlNode myNode = root.SelectSingleNode("//configuration/connectionStrings/add[@name='mssqlUnitTest']");
+			myNode.Attributes["connectionString"].Value = connectionString;
+			doc.Save(connectionStringsConfigPath);
+		}
+
 		public void UpadteFileDesignModeWorkspaceConsole(string webConfigPath, bool value) {
 			XmlDocument doc = new XmlDocument();
 			doc.Load(webConfigPath);
