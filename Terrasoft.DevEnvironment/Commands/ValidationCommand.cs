@@ -7,11 +7,18 @@
 
 		private void ValidateRootProjectPath() {
 			if (string.IsNullOrEmpty(Context.Settings.ProjectsPath)) {
-				throw new SoftCommonException("Please, set 'InfrastructureConsole' path in config file");
+				throw new SoftCommonException("Please, set 'ProjectsPath' setting in config file");
 			}
 			if (!Directory.Exists(Context.Settings.ProjectsPath)) {
 				Directory.CreateDirectory(Context.Settings.ProjectsPath);
 				Logger.WriteCommandAddition($"Directory '{Context.Settings.ProjectsPath}' has been created");
+			}
+		}
+
+		private void ValidateMsBuild() {
+			if (!File.Exists(CommonConstants.MsBuildPath)) {
+				throw new SoftCommonException($"MsBuild wasn't fined by path {CommonConstants.MsBuildPath}." +
+					" Please install MsBuild and try again.");
 			}
 		}
 
@@ -39,7 +46,7 @@
 				dbManager.MSSSQLConnectionString = Context.Settings.MSSSQLConnectionString;
 				dbManager.Ping();
 			} catch {
-				throw new SoftCommonException($"Can'not ping DB server");
+				throw new SoftCommonException("Can'not ping DB server");
 			}
 		}
 
@@ -47,7 +54,7 @@
 			try {
 				Directory.GetFiles(Context.Settings.DfsBuildsDirectoryPath);
 			} catch (Exception ex) {
-				throw new SoftCommonException($"Can'not ping DFS server. Check access to " +
+				throw new SoftCommonException("Can'not ping DFS server. Check access to " +
 					$"'{Context.Settings.DfsBuildsDirectoryPath} ({ex.Message})");
 			}
 		}
