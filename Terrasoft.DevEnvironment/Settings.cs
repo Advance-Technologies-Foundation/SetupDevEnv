@@ -19,7 +19,6 @@ namespace Terrasoft.DevEnvironment {
 		public string RedisConnectionString { get; internal set; }
 		public string SharedDirectoryPath { get; internal set; }
 		public string Packages { get; internal set; }
-		public string JSUnitTestsPackages { get; internal set; }
 		public string DBUnitTestsPackages { get; internal set; }
 		public string CSUnitTestsProjects { get; internal set; }
 		public bool ClearProjectDirectory { get; internal set; }
@@ -44,7 +43,6 @@ namespace Terrasoft.DevEnvironment {
 			RedisConnectionString = ConfigurationManager.AppSettings["RedisConnectionString"];
 			SharedDirectoryPath = ConfigurationManager.AppSettings["SharedDirectoryPath"];
 			Packages = ConfigurationManager.AppSettings["Packages"];
-			JSUnitTestsPackages = ConfigurationManager.AppSettings["JSUnitTestsPackages"];
 			DBUnitTestsPackages = ConfigurationManager.AppSettings["DBUnitTestsPackages"];
 			CSUnitTestsProjects = ConfigurationManager.AppSettings["CSUnitTestsProjects"];
 			DfsBuildsDirectoryPath = ConfigurationManager.AppSettings["DfsBuildsDirectoryPath"];

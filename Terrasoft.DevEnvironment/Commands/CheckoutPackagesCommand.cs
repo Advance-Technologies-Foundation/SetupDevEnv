@@ -71,15 +71,6 @@
 			return packages;
 		}
 
-		private List<string> GetJSTestPackages(List<string> softkeyPackages) {
-			var svnPath = Context.Settings.PackageStorePath;
-			var jsTestSuffix = ".Tests";
-			var tests = Context.Settings.JSUnitTestsPackages;
-			var packages = GetTestsPackages(softkeyPackages, tests, jsTestSuffix, svnPath);
-			packages = AddСompulsoryPackages(packages, "TestsUtilities");
-			return packages;
-		}
-
 		private List<string> GetDbTestPackages(List<string> softkeyPackages) {
 			var svnPath = Context.Settings.PackageStorePath;
 			var jsTestSuffix = ".DBTests";
@@ -108,9 +99,8 @@
 		protected override void InternalExecute(Context context) {
 			Logger.WriteCommand("Create InfrastructureConsole shortcut");
 			var packages = GetDevPackages();
-			var jsTestsPackages = GetJSTestPackages(packages);
 			var dbTestsPackages = GetDbTestPackages(packages);
-			var allPackages = packages.Concat(jsTestsPackages).Concat(dbTestsPackages);
+			var allPackages = packages.Concat(dbTestsPackages);
 			var shortcutContent = CreateShortcutContent(allPackages);
 			var path = SaveShortcut(shortcutContent);
 			Logger.WriteCommandAddition($"Shortcut path: {path}");
