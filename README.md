@@ -17,9 +17,9 @@ INSTALLATION
 ### Setup
 Скачать последнюю релизную версию. [Release](https://github.com/Advance-Technologies-Foundation/SetupDevEnv/releases)
 
-Сконфигурировать программу. [значение ключей конфига](https://github.com/Advance-Technologies-Foundation/SetupDevEnv/wiki/Configuration-file)
+Сконфигурировать программу. Для этого рекомендую воспользоваться примером готовых конфигов. [примеры конфигов](http://tswiki/x/QQd-B) 
 
-Для этого рекомендую воспользоваться примером готовых конфигов. [примеры конфигов](http://tswiki/x/QQd-B) 
+[значение ключей конфига](https://github.com/Advance-Technologies-Foundation/SetupDevEnv/wiki/Configuration-file)
 
 > замените значение ключей SvnUserName; SvnUserPassword; ProjectsPath; SharedDirectoryPath; MSSSQLConnectionString
 
