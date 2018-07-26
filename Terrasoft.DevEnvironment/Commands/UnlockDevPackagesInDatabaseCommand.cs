@@ -23,7 +23,7 @@
 				databaseManager.MSSSQLConnectionString = Context.Settings.MSSSQLConnectionString;
 				databaseManager.DataBase = Context.DatabaseName;
 				var tsManager = new TerrasoftManager();
-				var pkg = tsManager.GetPackeges(databaseManager);
+				var pkg = tsManager.GetPackages(databaseManager);
 				return pkg;
 			}
 			return SplitPackegesSetting(Context.Settings.Packages);
