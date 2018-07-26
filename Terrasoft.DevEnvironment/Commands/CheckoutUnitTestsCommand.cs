@@ -25,7 +25,7 @@
 			}
 		}
 
-		private List<string> SplitPackagesSetting(string value) {
+		private List<string> SplitConfigSetting(string value) {
 			if (!string.IsNullOrEmpty(value)) {
 				var separators = new char[] { ',', ' ', ';' };
 				var packages = value.Split(separators, StringSplitOptions.RemoveEmptyEntries)
@@ -42,20 +42,20 @@
 				databaseManager.MSSSQLConnectionString = Context.Settings.MSSSQLConnectionString;
 				databaseManager.DataBase = Context.DatabaseName;
 				var tsManager = new TerrasoftManager();
-				var pkg = tsManager.GetPackeges(databaseManager);
+				var pkg = tsManager.GetPackages(databaseManager);
 				return pkg;
 			} else {
-				return SplitPackagesSetting(Context.Settings.Packages);
+				return SplitConfigSetting(Context.Settings.Packages);
 			}
 		}
 
-		private Dictionary<string, List<string>> GetUnitTestProjects(List<string> devPackeges) {
+		private Dictionary<string, List<string>> GetUnitTestProjects(List<string> devPackages) {
 			var unitTestsPath = Context.Settings.UnitTestsPath;
 			var projectTestSuffix = ".UnitTests";
 			var tests = Context.Settings.CSUnitTestsProjects;
 			Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
-			foreach (var svnPath in tests.Split(';')) {
-				result.Add(svnPath, GetTestsPackages(devPackeges, tests, projectTestSuffix, svnPath));
+			foreach (var svnPath in SplitConfigSetting(unitTestsPath)) {
+				result.Add(svnPath, GetTestsPackages(devPackages, tests, projectTestSuffix, svnPath));
 			}
 			return result;
 		}
@@ -71,10 +71,15 @@
 						result.Add(testPackageName);
 					}
 				}
+				foreach (var package in GetRequiredTestPackages()) {
+					if (directories.Contains(package) && !result.Contains(package)) {
+						result.Add(package);
+					}
+				}
 				return result;
 			} else {
-				var splitPackages = SplitPackagesSetting(testPackagesSetting);
-				foreach (var package in splitPackages) {
+				var splitPackages = SplitConfigSetting(testPackagesSetting);
+				foreach (var package in splitPackages.Concat(GetRequiredTestPackages()).Distinct()) {
 					if (directories.Contains(package)) {
 						result.Add(package);
 					}
@@ -83,17 +88,13 @@
 			}
 		}
 
-		private List<string> AddRequiredPackages(List<string> packages) {
-			var required = new string[] {
+		private string[] GetRequiredTestPackages() => new string[] {
 				"UnitTest"
-			};
-			return packages.Concat(required).ToList();
-		}
-
+		};
+		
 		protected override void InternalExecute(Context context) {
 			Logger.WriteCommand("Download C# unit test projects");
 			var packages = GetDevPackages();
-			packages = AddRequiredPackages(packages);
 			var csprojects = GetUnitTestProjects(packages);
 			CheckoutProjects(csprojects);
 			Logger.WriteCommandSuccess();

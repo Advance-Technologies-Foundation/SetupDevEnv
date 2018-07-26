@@ -162,10 +162,10 @@
 			return sqlText;
 		}
 
-		public List<string> GetPackeges(DbManager dbManager) {
+		public List<string> GetPackages(DbManager dbManager) {
 			var result = new List<string>();
 			var sqlQuery = @"SELECT [Name] 
-				FROM SysPackage
+				FROM SysPackage WITH(NOLOCK) 
 				WHERE[Name] != 'Custom'";
 			dbManager.ExecSqlReader(sqlQuery, (r) => {
 				while (r.Read()) {
