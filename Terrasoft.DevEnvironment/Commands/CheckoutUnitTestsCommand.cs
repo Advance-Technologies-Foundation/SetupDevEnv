@@ -1,27 +1,31 @@
-﻿namespace Terrasoft.DevEnvironment.Commands {
+﻿namespace Terrasoft.DevEnvironment.Commands
+{
 	using Managers;
 	using System;
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
 
-	public class CheckoutUnitTestsCommand : BaseCommand {
+	public class CheckoutUnitTestsCommand : BaseCommand
+	{
 
-		private void CheckoutProjects(IEnumerable<string> packages) {
+		private void CheckoutProjects(Dictionary<string, List<string>> repos) {
 			var svnManager = new SvnManager(Context.Settings.SvnUserName, Context.Settings.SvnUserPassword);
-			foreach (var package in packages) {
-				var projectDirectoryPath = Path.Combine(Context.Settings.ProjectsPath, Context.ProjectDirectoryName);
-				var testDirectoryPath = Path.Combine(projectDirectoryPath, BpmonlineConstants.ConfigurationCsUnitTestsPath, package);
-				if (Directory.Exists(testDirectoryPath)) {
-					Directory.Delete(testDirectoryPath, true);
+			foreach (var repo in repos) {
+				foreach (var package in repo.Value) {
+					var projectDirectoryPath = Path.Combine(Context.Settings.ProjectsPath, Context.ProjectDirectoryName);
+					var testDirectoryPath = Path.Combine(projectDirectoryPath, BpmonlineConstants.ConfigurationCsUnitTestsPath, package);
+					if (Directory.Exists(testDirectoryPath)) {
+						Directory.Delete(testDirectoryPath, true);
+					}
+					Directory.CreateDirectory(testDirectoryPath);
+					var projectUrl = repo.Key + "/" + package;
+					svnManager.Checkout(projectUrl, testDirectoryPath);
 				}
-				Directory.CreateDirectory(testDirectoryPath);
-				var projectUrl = Context.Settings.UnitTestsPath + "/" + package;
-				svnManager.Checkout(projectUrl, testDirectoryPath);
 			}
 		}
 
-		private List<string> SplitPackegesSetting(string value) {
+		private List<string> SplitPackagesSetting(string value) {
 			if (!string.IsNullOrEmpty(value)) {
 				var separators = new char[] { ',', ' ', ';' };
 				var packages = value.Split(separators, StringSplitOptions.RemoveEmptyEntries)
@@ -41,32 +45,36 @@
 				var pkg = tsManager.GetPackeges(databaseManager);
 				return pkg;
 			} else {
-				return SplitPackegesSetting(Context.Settings.Packages);
+				return SplitPackagesSetting(Context.Settings.Packages);
 			}
 		}
 
-		private List<string> GetUnitTestProjects(List<string> devPackeges) {
-			var svnPath = Context.Settings.UnitTestsPath;
+		private Dictionary<string, List<string>> GetUnitTestProjects(List<string> devPackeges) {
+			var unitTestsPath = Context.Settings.UnitTestsPath;
 			var projectTestSuffix = ".UnitTests";
 			var tests = Context.Settings.CSUnitTestsProjects;
-			return GetTestsPackages(devPackeges, tests, projectTestSuffix, svnPath);
+			Dictionary<string, List<string>> result = new Dictionary<string, List<string>>();
+			foreach (var svnPath in tests.Split(';')) {
+				result.Add(svnPath, GetTestsPackages(devPackeges, tests, projectTestSuffix, svnPath));
+			}
+			return result;
 		}
 
-		private List<string> GetTestsPackages(List<string> packeges, string testPackagesSetting, string testPackegeSuffix, string svnUrl) {
+		private List<string> GetTestsPackages(List<string> packages, string testPackagesSetting, string testPackageSuffix, string svnUrl) {
 			var result = new List<string>();
 			var svnManager = new SvnManager(Context.Settings.SvnUserName, Context.Settings.SvnUserPassword);
 			var directories = svnManager.GetDirectories(svnUrl);
 			if (string.Equals(testPackagesSetting.Trim(), "*")) {
-				foreach (var packege in packeges) {
-					var testPackageName = packege + testPackegeSuffix;
+				foreach (var package in packages) {
+					var testPackageName = package + testPackageSuffix;
 					if (directories.Contains(testPackageName)) {
 						result.Add(testPackageName);
 					}
 				}
 				return result;
 			} else {
-				var packages = SplitPackegesSetting(testPackagesSetting);
-				foreach (var package in packages) {
+				var splitPackages = SplitPackagesSetting(testPackagesSetting);
+				foreach (var package in splitPackages) {
 					if (directories.Contains(package)) {
 						result.Add(package);
 					}
@@ -75,18 +83,18 @@
 			}
 		}
 
-		private List<string> AddRequaredProjects(List<string> packages) {
-			var requared = new string[] {
+		private List<string> AddRequiredPackages(List<string> packages) {
+			var required = new string[] {
 				"UnitTest"
 			};
-			return packages.Concat(requared).ToList();
+			return packages.Concat(required).ToList();
 		}
 
 		protected override void InternalExecute(Context context) {
 			Logger.WriteCommand("Download C# unit test projects");
 			var packages = GetDevPackages();
+			packages = AddRequiredPackages(packages);
 			var csprojects = GetUnitTestProjects(packages);
-			csprojects = AddRequaredProjects(csprojects);
 			CheckoutProjects(csprojects);
 			Logger.WriteCommandSuccess();
 		}
