@@ -72,6 +72,7 @@ namespace Terrasoft.DevEnvironment {
 				.SetNext(new SetWorkspaceConsolePrefer32BitCommand())
 				.SetNext(new CheckoutPackagesCommand())
 				.SetNext(new CheckoutUnitTestsCommand())
+				.SetNext(new AddUnitTestsToSolution())
 				.SetNext(new UpdateIntegrationConnectionStringCommand())
 				.SetNext(new BuildCommand())
 				.SetNext(new UpdateWorkspace())
