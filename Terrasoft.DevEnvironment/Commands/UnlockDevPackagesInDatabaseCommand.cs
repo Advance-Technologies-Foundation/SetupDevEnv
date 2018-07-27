@@ -30,12 +30,16 @@
 		}
 
 		protected override void InternalExecute(Context context) {
+			const string maintainer = "Terrasoft";
 			Logger.WriteCommand("Prepare packages");
 			var tsManager = new TerrasoftManager();
 			var devPackages = GetDevPackages();
 			var dbManager = new DbManager();
 			dbManager.MSSSQLConnectionString = Context.Settings.MSSSQLConnectionString;
 			dbManager.DataBase = Context.DatabaseName;
+			var updateMaintainerScript = tsManager.GetUpdateMaintainerScript(maintainer);
+			dbManager.ExecSqlScript(updateMaintainerScript);
+			Logger.WriteCommandAdditionLine($"Update maintainer to {maintainer}");
 			foreach (var package in devPackages) {
 				var preparePackageScript = tsManager.CreatePrepareDevPackageScript(package);
 				dbManager.ExecSqlScript(preparePackageScript);

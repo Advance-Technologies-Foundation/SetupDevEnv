@@ -91,6 +91,19 @@
 			doc.Save(projectFilePath);
 		}
 
+		public string GetUpdateMaintainerScript(string maintainer) {
+			var sqlText = $@"
+				UPDATE SysSettingsValue
+				SET
+					TextValue = '{maintainer}'
+				WHERE [Id] IN (
+					SELECT Id FROM SysSettingsValue 
+					WHERE SysSettingsId = (SELECT [Id] FROM SysSettings WHERE [Code] LIKE 'Maintainer' AND [IsPersonal] = 0) 
+					AND SysAdminUnitId = 'A29A3BA5-4B0D-DE11-9A51-005056C00008'
+				)";
+			return sqlText;
+		}
+
 		public string GetClearCultureScript() {
 			var sqlText = @"
 				SET NOCOUNT ON;
