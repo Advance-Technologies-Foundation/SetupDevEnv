@@ -44,7 +44,7 @@
 			doc.Save(connectionStringsConfigPath);
 		}
 
-		public void UpadteFileDesignMode(string webConfigPath, bool value) {
+		public void UpdateFileDesignMode(string webConfigPath, bool value) {
 			XmlDocument doc = new XmlDocument();
 			doc.Load(webConfigPath);
 			var appSettingsNode = doc.DocumentElement.SelectSingleNode($"//fileDesignMode");
@@ -70,11 +70,19 @@
 			doc.Save(connectionStringsConfigPath);
 		}
 
-		public void UpadteFileDesignModeWorkspaceConsole(string webConfigPath, bool value) {
+		public void UpdateFileDesignModeWorkspaceConsole(string webConfigPath, bool value) {
 			XmlDocument doc = new XmlDocument();
 			doc.Load(webConfigPath);
 			var appSettingsNode = doc.DocumentElement.SelectSingleNode($"//fileDesignMode");
 			appSettingsNode.Attributes["enabled"].Value = value ? "true" : "false";
+			doc.Save(webConfigPath);
+		}
+
+		public void UpdateDbGeneralSection(string webConfigPath) {
+			XmlDocument doc = new XmlDocument();
+			doc.Load(webConfigPath);
+			var appSettingsNode = doc.DocumentElement.SelectSingleNode($"//db/general");
+			appSettingsNode.Attributes["maxEntitySchemaNameLength"].Value = "100";
 			doc.Save(webConfigPath);
 		}
 

@@ -72,7 +72,7 @@
     <Compile Include="Commands\DownloadBuildCommand.cs" />
     <Compile Include="Commands\CheckoutUnitTestsCommand.cs" />
     <Compile Include="Commands\CheckoutPackagesCommand.cs" />
-    <Compile Include="Commands\EnableFileDesignModeCommand.cs" />
+    <Compile Include="Commands\UpdateLoaderWebConfig.cs" />
     <Compile Include="Commands\EnableFileDesignModeWorkspaceConsoleCommand.cs" />
     <Compile Include="Commands\IdentifyBuildCommand.cs" />
     <Compile Include="Commands\IdentifyBuildPropertiesCommand.cs" />
@@ -88,7 +88,7 @@
     <Compile Include="Commands\UpdateDatabaseConnectionStringCommand.cs" />
     <Compile Include="Commands\UpdateRedisConnectionStringCommand.cs" />
     <Compile Include="Commands\UpdateWCDatabaseConnectionStringCommand.cs" />
-	<Compile Include="Commands\UpdateIntegrationConnectionStringCommand.cs" />
+    <Compile Include="Commands\UpdateIntegrationConnectionStringCommand.cs" />
     <Compile Include="Commands\BuildCommand.cs" />
     <Compile Include="Commands\DeleteTempFilesCommand.cs" />
     <Compile Include="Commands\UpdateWorkspace.cs" />
