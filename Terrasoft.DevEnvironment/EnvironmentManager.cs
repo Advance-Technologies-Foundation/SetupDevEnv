@@ -62,7 +62,7 @@ namespace Terrasoft.DevEnvironment {
 				.SetNext(new CheckoutCoreCommand())
 				.SetNext(new UpdateDatabaseConnectionStringCommand())
 				.SetNext(new UpdateRedisConnectionStringCommand())
-				.SetNext(new EnableFileDesignModeCommand())
+				.SetNext(new UpdateLoaderWebConfig())
 				.SetNext(new PrepareDevDatabaseCommand())
 				.SetNext(new ClearCulturesFromDatabaseCommand())
 				.SetNext(new UnlockDevPackagesInDatabaseCommand())
