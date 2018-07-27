@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AddUnitTestsToSolution.cs" />
     <Compile Include="Commands\BaseCommand.cs" />
     <Compile Include="Commands\BaseRunCmdCommand.cs" />
     <Compile Include="Commands\BaseWorkspaceRunCmdCommand.cs" />
