@@ -1,3 +1,5 @@
+# Проект переехал на tscore-git!!!
+
 Setup Development Environment Tool
 =============================
 
