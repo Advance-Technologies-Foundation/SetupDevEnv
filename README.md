@@ -1,4 +1,4 @@
-# Проект переехал на tscore-git!!!
+# Проект переехал на [tscore-git](http://tscore-git/ATF/SetupDevEnv/tree/master)!!!
 
 Setup Development Environment Tool
 =============================
